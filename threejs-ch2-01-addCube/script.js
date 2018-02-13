@@ -13,6 +13,8 @@ function init() {
     changedColor = new THREE.Color(0x0c0c0c);//0x0c0c0c;
 
     scene = new THREE.Scene();
+    //scene.fog  = new THREE.FogExp2(0x862af7,0.11);
+    scene.fog = new THREE.Fog(0x862af7, 0.045,150);
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     scene.add(camera);
     renderer = new THREE.WebGLRenderer();
@@ -84,7 +86,7 @@ function init() {
                 for(var i = 5; i < allChildren.length; i ++){
                     allChildren[i].material.color = new THREE.Color(Math.random() * 0xffffff);;
                 }
-            }
+            }ß
         };
         this.removeCube = function(){
             var allChildren = scene.children;
@@ -94,6 +96,9 @@ function init() {
                 this.numberOfObjects = scene.children.length;
             }
         };
+        this.changeMaterial = function(){
+            scene.overrideMaterial = new THREE.MeshLambertMaterial({color:0xffffff})
+        };
         this.outputObjects = function(){
             console.log(scene.children);
         }
@@ -102,11 +107,14 @@ function init() {
     gui.addColor(controls, 'ambientLightC');
     changedColor = controls.ambientLightC.replace('#', '0x');
     gui.add(controls, 'addCube');
+    gui.add(controls, 'removeCube');
+    gui.add(controls, 'changeCubeColor');
+    gui.add(controls, 'changeMaterial');
     gui.add(controls, 'planePositionX', -10, 10);
     gui.add(controls, 'planePositionY', -5, 20);
     gui.add(controls, 'planePositionZ', -10, 10);
-    gui.add(controls, 'changeCubeColor');
-    gui.add(controls, 'removeCube');
+
+
     gui.add(controls, 'outputObjects');
     //end of GUI
 
@@ -121,6 +129,8 @@ function init() {
         plane.position.z = controls.planePositionZ;
 
         //add auto-rotation to all the cubes.
+        //way 1: use for loop to go through all the cubes.
+        /*
         var allChildren = scene.children;
         var lastObject = allChildren[allChildren.length - 1];
         if(lastObject instanceof THREE.Mesh){;
@@ -130,6 +140,16 @@ function init() {
                 allChildren[i].rotation.z += 0.02;
             }
         }
+        */
+        //way 2 use travrerse, will go through all the objects in the scene
+        scene.traverse(function(obj){
+            if(obj instanceof THREE.Mesh && obj != plane){
+                obj.rotation.x += 0.02;
+                obj.rotation.y += 0.02;
+                obj.rotation.z += 0.02;
+            }
+        });
+
         //apply animaiton
         requestAnimationFrame(renderScene);
         renderer.render(scene, camera);
