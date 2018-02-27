@@ -1,0 +1,4 @@
+.Selector{
+    display: flex;
+    flex-direction: column;
+}

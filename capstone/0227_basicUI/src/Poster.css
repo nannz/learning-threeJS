@@ -1,0 +1,51 @@
+.Poster{
+    /*width:500px;*/
+    height:700px;
+    width:100%;
+    /*margin: 20px;*/
+    padding: 50px;
+    color: white;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    word-wrap: break-word;
+    overflow: inherit;
+
+
+}
+
+h1 {
+    width:500px;
+    margin: 0px;
+    text-transform: uppercase;
+    font-size: 90px;
+    word-spacing: 700px;
+    word-break: keep-all;
+    height: 400px;
+    overflow: auto;
+
+    position: relative;
+    z-index:2;
+}
+
+p,time{
+    font-family: Courier, Helvetica, sans-serif;
+    font-size: 24px;
+    margin:0px;
+    padding-top:0.5em;
+
+    position: relative;
+    z-index:2;
+}
+
+
+#shape{
+    position: absolute;
+    margin: auto;
+    z-index:0;
+    /*overflow: hidden;*/
+}
+
+
